@@ -30,8 +30,11 @@ const TodoDetails = ({onClose, onEdit, selectedRow, setIsEditing, isLoadingDelet
     <Card
             elevation={0}
             sx={{
-              boxShadow:
+              boxShadow: [
+                'none',
+                'none',
                 '0px 8px 8px -4px rgba(16, 24, 40, 0.03), 0px 20px 24px -4px rgba(16, 24, 40, 0.08)',
+              ],
             }}>
             <CardHeader
               sx={{ py: 0 }}

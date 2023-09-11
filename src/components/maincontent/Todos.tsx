@@ -97,7 +97,8 @@ const Todos = () => {
   const handleOpenViewMode = () => {
     setIsViewMode(true)
     if(matches) {
-      setOpen(true)
+      toggleDrawer(true)
+      // handleCloseInputMode()
     }
   };
   const handleCloseViewMode = () => {
@@ -107,6 +108,7 @@ const Todos = () => {
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
+    if(isViewMode) return
     if(matches) {
       setIsInputMode(true)
     }
@@ -496,6 +498,10 @@ if(formData.task === '') {
                   border: `1px solid ${appColor.gray300}`,
                   boxShadow: '0px 1px 2px 0px rgba(16, 24, 40, 0.05)',
                 },
+                '& .MuiOutlinedInput-input:focused': {
+                  borderColor: 'gray', 
+                  outline: 'none'
+                }
               }}
               inputProps={{
                 style: {
@@ -569,8 +575,7 @@ if(formData.task === '') {
               isEditing={isEditing}
               selectedRow={selectedRow}
             />
-          ) : (
-            isViewMode && (
+          ) :  (
               <TodoDetails
                 onClose={handleCloseViewMode}
                 onEdit={handleOpenInputMode}
@@ -580,7 +585,7 @@ if(formData.task === '') {
                 isLoadingDelete={isLoadingDeleteTodo}
               />
             )
-          )}
+          }
         </Box>
       </SwipeableDrawer>
     </>
