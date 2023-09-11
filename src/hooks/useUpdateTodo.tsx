@@ -19,6 +19,7 @@ export function useUpdateTodo() {
     // },
 
     onSuccess: () => {
+        alert('Task updated successfully')
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
   });

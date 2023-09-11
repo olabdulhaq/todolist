@@ -18,6 +18,7 @@ export function useDeleteTodo() {
     // },
 
     onSuccess: () => {
+        alert('Task deleted')
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
   });
