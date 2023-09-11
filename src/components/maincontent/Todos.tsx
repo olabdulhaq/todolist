@@ -12,6 +12,9 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 import TodoDetails from './TodoDetails';
@@ -30,6 +33,9 @@ import { Checkbox } from '@mui/material';
 
 const Todos = () => {
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
+
   const [isInputMode, setIsInputMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -80,12 +86,30 @@ const Todos = () => {
     setIsEditing(false);
     setSelectedRow(null);
     setOpen(false)
+
+    setFormData({
+      task: '',
+    date: moment(),
+    startTime: moment(),
+    endTime: moment(),
+    })
   };
-  const handleOpenViewMode = () => setIsViewMode(true);
-  const handleCloseViewMode = () => setIsViewMode(false);
+  const handleOpenViewMode = () => {
+    setIsViewMode(true)
+    if(matches) {
+      setOpen(true)
+    }
+  };
+  const handleCloseViewMode = () => {
+    setIsViewMode(false)
+    setOpen(false)
+  };
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
+    if(matches) {
+      setIsInputMode(true)
+    }
   };
 
   const handlePageChange = (event: any, page: number) => {
@@ -142,6 +166,12 @@ const Todos = () => {
   };
 
   const handleSubmit = () => {
+if(formData.task === '') {
+  alert('Task can not be empty')
+  
+  return
+}
+
     const data = {
       task: formData.task,
       date: formData.date,
@@ -527,7 +557,7 @@ const Todos = () => {
           sx={{
             p: '1.5rem',
           }}>
-          {open ? (
+          {isInputMode ? (
             <AddEditTodo
               onChange={handleFormChange}
               setFormData={setFormData}
