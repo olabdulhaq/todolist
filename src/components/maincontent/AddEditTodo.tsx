@@ -89,7 +89,7 @@ const AddEditTodo = ({
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Typography>Edit</Typography>
+            <Typography>{isEditing && 'Edit'}</Typography>
             <IconButton
               aria-label="close"
               sx={{

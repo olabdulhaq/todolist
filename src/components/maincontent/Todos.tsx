@@ -79,6 +79,7 @@ const Todos = () => {
     setIsInputMode(false);
     setIsEditing(false);
     setSelectedRow(null);
+    setOpen(false)
   };
   const handleOpenViewMode = () => setIsViewMode(true);
   const handleCloseViewMode = () => setIsViewMode(false);
@@ -526,7 +527,7 @@ const Todos = () => {
           sx={{
             p: '1.5rem',
           }}>
-          {isInputMode ? (
+          {open ? (
             <AddEditTodo
               onChange={handleFormChange}
               setFormData={setFormData}
