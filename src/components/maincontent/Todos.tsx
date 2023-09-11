@@ -20,18 +20,18 @@ import TodoCalendar from './TodoCalendar';
 import { appColor } from '../../constants/color';
 import { useCreateTodo } from '../../hooks/useCreateTodo';
 import { useFetchTodos } from '../../hooks/useFetchTodos';
-import { CheckedIcon, MicrophoneIcon, UnCheckedIcon } from '../../icons';
+import { MicrophoneIcon } from '../../icons';
 import { greetingMessage } from '../../utils/helpers';
 import moment, { Moment } from 'moment';
 import { TasksProps } from '@/types';
 import { useUpdateTodo } from '../../hooks/useUpdateTodo';
 import { useDeleteTodo } from '../../hooks/useDeleteTodo';
+import { Checkbox } from '@mui/material';
 
 const Todos = () => {
   const [open, setOpen] = useState(false);
   const [isInputMode, setIsInputMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
-  // const [isCalendarMode, setIsCalendarMode] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [activeDate, setActiveDate] = useState<Moment>(moment());
   const [dateButtons, setDateButtons] = useState<Moment[]>([]);
@@ -54,9 +54,14 @@ const Todos = () => {
   const { mutate: deleteTodo, isLoading: isLoadingDeleteTodo } =
     useDeleteTodo();
 
-    const pageSize = 10;
-    const filterPageSize = todos.rows.filter(el => moment(el.date).format('YYYY-MM-DD') === moment(activeDate).format('YYYY-MM-DD')) || 0
-    const totalPages = Math.ceil(filterPageSize.length / pageSize);
+  const pageSize = 10;
+  const filterPageSize =
+    todos.rows.filter(
+      (el) =>
+        moment(el.date).format('YYYY-MM-DD') ===
+        moment(activeDate).format('YYYY-MM-DD')
+    ) || 0;
+  const totalPages = Math.ceil(filterPageSize.length / pageSize);
 
   useEffect(() => {
     // Initialize the dates array with 11 dates starting from today
@@ -84,14 +89,19 @@ const Todos = () => {
 
   const handlePageChange = (event: any, page: number) => {
     setCurrentPage(page);
-  }
+  };
 
   const getCurrentPageData = () => {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
 
-    return todos.rows.filter(todo => moment(todo.date).format('YYYY-MM-DD') ===
-    moment(activeDate).format('YYYY-MM-DD')).slice(startIndex, endIndex);
+    return todos.rows
+      .filter(
+        (todo) =>
+          moment(todo.date).format('YYYY-MM-DD') ===
+          moment(activeDate).format('YYYY-MM-DD')
+      )
+      .slice(startIndex, endIndex);
   };
 
   const handleFormChange = (
@@ -105,12 +115,12 @@ const Todos = () => {
   // const handleDateButton = (clickedDate: Moment) => {
   //   // Calculate the number of days to shift the dates to keep the selected date in the middle
   //   const daysToShift = 5 - dateButtons.findIndex((date) => date.isSame(clickedDate, 'day'));
-  
+
   //   // Calculate the new array of dates
   //   const newDates = dateButtons.map((date) =>
   //     moment(date).add(daysToShift, 'days')
   //   );
-  
+
   //   setActiveDate(clickedDate);
   //   setDateButtons(newDates);
   // };
@@ -121,14 +131,14 @@ const Todos = () => {
   };
 
   const handleDelete = () => {
-    const id = selectedRow?.id as number
+    const id = selectedRow?.id as number;
 
     deleteTodo(id, {
       onSuccess: () => {
-        handleCloseViewMode()
-      }
-    })
-  }
+        handleCloseViewMode();
+      },
+    });
+  };
 
   const handleSubmit = () => {
     const data = {
@@ -152,7 +162,7 @@ const Todos = () => {
     if (isEditing) {
       updateTodo(updateData as any, {
         onSuccess: () => {
-          handleCloseInputMode()
+          handleCloseInputMode();
           setFormData({
             task: '',
             date: moment(),
@@ -321,42 +331,66 @@ const Todos = () => {
             ) : (
               <Box
                 sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                {getCurrentPageData().length <= 0 ? 
-                <Typography sx={{textAlign: 'center', py: 5}}>You don't have any task for today</Typography> :
-                getCurrentPageData().map((todo) => (
-                  <Box
-                    key={todo.id}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      width: '100%',
-                      height: '4.5rem',
-                      padding: '1rem 1.5rem',
-                      backgroundColor: appColor.gray50,
-                      borderBottom: appColor.gray200,
-                    }}>
-                    {todo.completed ? <CheckedIcon /> : <UnCheckedIcon />}
+                {getCurrentPageData().length <= 0 ? (
+                  <Typography sx={{ textAlign: 'center', py: 5 }}>
+                    You don't have any task for today
+                  </Typography>
+                ) : (
+                  getCurrentPageData().map((todo) => (
                     <Box
+                      key={todo.id}
                       sx={{
-                        mr: 'auto',
-                        ml: '0.75rem',
+                        display: 'flex',
+                        alignItems: 'center',
                         width: '100%',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => {
-                        handleOpenViewMode();
-                        handleCloseInputMode();
-                        setSelectedRow(todo);
+                        height: '4.5rem',
+                        padding: '1rem 1.5rem',
+                        backgroundColor: appColor.gray50,
+                        borderBottom: appColor.gray200,
                       }}>
-                      <Typography
+                      <Checkbox
+                        checked={todo.completed}
+                        onChange={(event) => {
+                          const newFormData = {
+                            ...todo,
+                            completed: event.target.checked,
+                          };
+                          updateTodo(newFormData);
+                        }}
+                      />
+                      <Box
                         sx={{
-                          fontSize: '14px',
-                          fontWeight: 500,
-                          lineHeight: '20px',
-                          color: appColor.gray900,
+                          mr: 'auto',
+                          ml: '0.75rem',
+                          width: '100%',
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => {
+                          handleOpenViewMode();
+                          handleCloseInputMode();
+                          setSelectedRow(todo);
                         }}>
-                        {todo.task}
-                      </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: '14px',
+                            fontWeight: 500,
+                            lineHeight: '20px',
+                            color: appColor.gray900,
+                          }}>
+                          {todo.task}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: '14px',
+                            fontWeight: 400,
+                            lineHeight: '20px',
+                            color: appColor.gray600,
+                          }}>
+                          {`${moment(todo.startTime).format(
+                            'h:mm a'
+                          )} - ${moment(todo.endTime).format('h:mm a')}`}
+                        </Typography>
+                      </Box>
                       <Typography
                         sx={{
                           fontSize: '14px',
@@ -364,30 +398,18 @@ const Todos = () => {
                           lineHeight: '20px',
                           color: appColor.gray600,
                         }}>
-                        {`${moment(todo.startTime).format(
-                          'h:mm a'
-                        )} - ${moment(todo.endTime).format('h:mm a')}`}
+                        {moment(todo.date).calendar({
+                          sameDay: '[Today]',
+                          nextDay: '[Tomorrow]',
+                          nextWeek: 'dddd',
+                          lastDay: '[Yesterday]',
+                          lastWeek: '[Last] dddd',
+                          sameElse: 'DD/MM/YYYY',
+                        })}
                       </Typography>
                     </Box>
-                    <Typography
-                      sx={{
-                        fontSize: '14px',
-                        fontWeight: 400,
-                        lineHeight: '20px',
-                        color: appColor.gray600,
-                      }}>
-                      {moment(todo.date).calendar({
-                        sameDay: '[Today]',
-                        nextDay: '[Tomorrow]',
-                        nextWeek: 'dddd',
-                        lastDay: '[Yesterday]',
-                        lastWeek: '[Last] dddd',
-                        sameElse: 'DD/MM/YYYY',
-                      })}
-                    </Typography>
-                  </Box>
-                ))
-                }
+                  ))
+                )}
               </Box>
             )}
           </Box>
@@ -399,7 +421,12 @@ const Todos = () => {
             }}
           />
           <Stack spacing={2} sx={{ display: ['none', 'none', 'block'] }}>
-            <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} shape="rounded" />
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={handlePageChange}
+              shape="rounded"
+            />
           </Stack>
           <Box
             sx={{
@@ -477,7 +504,10 @@ const Todos = () => {
                 isLoadingDelete={isLoadingDeleteTodo}
               />
             ) : (
-              <TodoCalendar todosData={todos.rows} handleDateButton={handleDateButton}/>
+              <TodoCalendar
+                todosData={todos.rows}
+                handleDateButton={handleDateButton}
+              />
             )}
           </Box>
         </Grid>
@@ -497,18 +527,19 @@ const Todos = () => {
             p: '1.5rem',
           }}>
           {isInputMode ? (
-              <AddEditTodo
-                onChange={handleFormChange}
-                setFormData={setFormData}
-                formData={formData}
-                onClose={handleCloseInputMode}
-                onSubmit={handleSubmit}
-                isLoading={isLoadingCreateTodo}
-                isLoadingUpdate={isLoadingUpdateTodo}
-                isEditing={isEditing}
-                selectedRow={selectedRow}
-              />
-            ) : isViewMode && (
+            <AddEditTodo
+              onChange={handleFormChange}
+              setFormData={setFormData}
+              formData={formData}
+              onClose={handleCloseInputMode}
+              onSubmit={handleSubmit}
+              isLoading={isLoadingCreateTodo}
+              isLoadingUpdate={isLoadingUpdateTodo}
+              isEditing={isEditing}
+              selectedRow={selectedRow}
+            />
+          ) : (
+            isViewMode && (
               <TodoDetails
                 onClose={handleCloseViewMode}
                 onEdit={handleOpenInputMode}
@@ -516,7 +547,9 @@ const Todos = () => {
                 setIsEditing={setIsEditing}
                 onDelete={handleDelete}
                 isLoadingDelete={isLoadingDeleteTodo}
-              />)}
+              />
+            )
+          )}
         </Box>
       </SwipeableDrawer>
     </>

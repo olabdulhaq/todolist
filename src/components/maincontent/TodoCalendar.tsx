@@ -233,8 +233,8 @@ const TodoCalendar = ({todosData, handleDateButton}:IProps) => {
         <Grid
           container
           spacing={2}
-          sx={{ width: '100%', alignItems: 'center' }}>
-          <Grid item xs={12} md={8}>
+          sx={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+          <Grid item xs={12} md={8} sx={{width: '100%'}}>
             <TextField
               type="date"
               value={selectedDate.toISOString().split('T')[0]}
@@ -243,7 +243,8 @@ const TodoCalendar = ({todosData, handleDateButton}:IProps) => {
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '0.5rem',
-                  border: `1px solid ${appColor.gray300}`,
+                  maxWidth: '16.36rem',
+                  height: '2.5rem',
                   background: '#fff',
                   boxShadow: '0px 1px 2px 0px rgba(16, 24, 40, 0.05)',
                 },
@@ -260,6 +261,8 @@ const TodoCalendar = ({todosData, handleDateButton}:IProps) => {
                 border: `1px solid ${appColor.gray300}`,
                 color: appColor.gray700,
                 fontSize: '0.875rem',
+                width: '100%',
+                height: '2.5rem',
                 fontWeight: 600,
                 lineHeight: '1.25rem',
                 boxShadow: '0px 1px 2px 0px rgba(16, 24, 40, 0.05)',

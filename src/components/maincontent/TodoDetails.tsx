@@ -39,10 +39,9 @@ const TodoDetails = ({onClose, onEdit, selectedRow, setIsEditing, isLoadingDelet
                 <Box
                   sx={{
                     display: 'flex',
-                    justifyContent: 'space-between',
+                    justifyContent: 'end',
                     alignItems: 'center',
                   }}>
-                  <Typography>Edit</Typography>
                   <IconButton
                     aria-label="close"
                     sx={{

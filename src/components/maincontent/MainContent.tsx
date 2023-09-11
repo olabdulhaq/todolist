@@ -6,7 +6,7 @@ import Todos from './Todos';
 
 const MainContent = () => {
   return (
-    <Box sx={{mt: '6.9rem'}}>
+    <Box sx={{mt: '6.9rem', mb: ['0','0','6rem']}}>
         <Todos />
     </Box>
   )
