@@ -83,7 +83,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 @media (max-width: 900px) {
   body {
-    padding: 0 1rem;
+    padding: 0;
   }
 }
 
