@@ -150,8 +150,6 @@ const TodoCalendar = ({todosData, handleDateButton}:IProps) => {
               }}
               onClick={() => {
                 handleDateButton(selectedDate)
-                // alert(selectedDate)
-                console.log(moment(selectedDate))
               }}
               >
               {currentDay}
@@ -233,7 +231,9 @@ const TodoCalendar = ({todosData, handleDateButton}:IProps) => {
         <Grid
           container
           spacing={2}
-          sx={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+          sx={{ width: '100%', alignItems: 'center', justifyContent: 'center', '& .MuiGrid-item': {
+            pb: 2,
+          } }}>
           <Grid item xs={12} md={8} sx={{width: '100%'}}>
             <TextField
               type="date"
@@ -241,6 +241,7 @@ const TodoCalendar = ({todosData, handleDateButton}:IProps) => {
               onChange={handleDateChange}
               className="date-input"
               sx={{
+                pb: 0,
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '0.5rem',
                   maxWidth: '16.36rem',
