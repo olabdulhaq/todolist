@@ -1,38 +1,94 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+/* @import url('/assets/fonts/Satoshi-Variable.ttf'); */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html,
+body {
+  font-family: 'Work Sans', sans-serif;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Define styles for the calendar content */
+.calendar-content {
+  padding: 16px; /* Adjust the padding as needed */
+}
+
+/* Style the date input */
+.date-input {
+  width: 100%;
+  cursor: pointer;
+  color: #fff;
+  padding: 0.5rem 0.875rem;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+input[type='date']::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Style the calendar table */
+.calendar-table {
+  width: 100%;
+  max-width: 24.625rem; /* Set the maximum width of the table */
+  table-layout: fixed;
+  /* border-collapse: collapse; */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.calendar-table tr {
+  border: none;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.calendar-table td {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.625rem 0.5rem 0.25rem 0.5rem;
+  align-items: center;
+  border: none;
+  border-radius: 200px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.current-day {
+  background-color: #3f5bf6;
+}
+
+.current-day:hover {
+  background-color: #0e31f2;
+}
+
+.other-day {
+  background-color: #fff;
+}
+
+@media (max-width: 900px) {
+  body {
+    padding: 0 1rem;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@media (max-width: 768px) {
+  .calendar-content {
+    padding: 8px;
   }
 }
